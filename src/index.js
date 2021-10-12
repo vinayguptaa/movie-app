@@ -6,14 +6,21 @@ import './index.css';
 import App from './components/App';
 import rootReducer from './reducers';
 
-const logger = function({dispatch, getState}) {
-  return function(next) {
-    return function(action) {
-      //middleware code
-      console.log('ACTION TYPE: ',action.type);
-      next(action);
-    }
-  }
+// const logger = function({dispatch, getState}) {
+//   return function(next) {
+//     return function(action) {
+//       //middleware code
+//       console.log('ACTION TYPE: ',action.type);
+//       next(action);
+//     }
+//   }
+// }
+
+//same as above
+const logger= ({dispatch, getState}) => (next) => (action) => {
+  //middleware code
+  console.log('ACTION TYPE: ',action.type);
+  next(action);
 }
 
 const store = createStore(rootReducer, applyMiddleware(logger));
