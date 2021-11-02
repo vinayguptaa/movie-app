@@ -64,7 +64,14 @@ export function search(state = initialSearchState, action) {
 //     }
 // }
 
+//smart enough to do as above only !
+// export default combineReducers({
+//   movies:movies, //propertyWeWant: ReducerWhichWillHandleThat
+//   search:search,
+// });
+
+//shorthand
 export default combineReducers({
-    movies: movies,
-    search: search
+    movies,
+    search
 });
