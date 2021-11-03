@@ -1,6 +1,6 @@
 import React from 'react';
 import {data} from '../data';
-import { addMovies, setShowFavourites } from '../actions';
+import { addMovies, setShowFavourites, hideSearchResult } from '../actions';
 import Navbar from './Navbar';
 import MovieCard from './MovieCard';
 import { StoreContext } from '../index';
@@ -37,6 +37,15 @@ class App extends React.Component {
     this.props.store.dispatch(setShowFavourites(val));
   }
 
+  //doing in myself to hide search on escape
+  handleHideSearchResult = (e) => {
+    if(e.key === 'Escape') {
+      console.log(e.key);
+      this.props.store.dispatch(hideSearchResult());
+    }
+    // console.log(e.key);
+  }
+ 
   render() {
     console.log('RENDER', this.props.store.getState());// {movies: {}, search: {}}
 
@@ -45,7 +54,7 @@ class App extends React.Component {
 
     const displayMovies = showFavourites ? favourites : list;
     return (
-      <div className="App">
+      <div className="App" tabIndex="0" onKeyDown={this.handleHideSearchResult} >
         <Navbar />
         <div className="main">
           <div className="tabs" >

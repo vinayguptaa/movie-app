@@ -69,7 +69,7 @@ class Provider extends React.Component {
 ReactDOM.render(
   //as it is our own component we cab use store as prop name
   <Provider store={store}> 
-    <App  />
+    <App />
   </Provider> ,
   document.getElementById('root')
 );

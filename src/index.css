@@ -7,6 +7,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background: #f1f1f1;
 }
+
+.App {
+  outline: none;
+}
+
 .nav {
   background: black;
   height: 70px;
