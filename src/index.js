@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createContext } from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
@@ -39,6 +39,17 @@ const logger= ({dispatch, getState}) => (next) => (action) => {
 
 const store = createStore(rootReducer, applyMiddleware(logger, thunk));
 console.log('creating store: ', store);
+
+export const StoreContext = createContext();
+console.log('StoreContext: ' ,StoreContext);
+
+class Provider extends React.Component {
+  render() {
+    const {store} = this.props;
+    return  <StoreContext.Provider value={store}> {this.props.children} </StoreContext.Provider>
+  }
+}
+
 // console.log('state: ', store.getState());
 
 // store.dispatch({
@@ -48,10 +59,18 @@ console.log('creating store: ', store);
 
 // console.log('state: ', store.getState());
 
+// ReactDOM.render(
+//   <StoreContext.Provider value={store}>
+//     <App store={store} /> //will remove this from here as using context
+//   </StoreContext.Provider> ,
+//   document.getElementById('root')
+// );
+
 ReactDOM.render(
-  <React.StrictMode>
-    <App store={store} />
-  </React.StrictMode>,
+  //as it is our own component we cab use store as prop name
+  <Provider store={store}> 
+    <App  />
+  </Provider> ,
   document.getElementById('root')
 );
 
