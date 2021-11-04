@@ -64,7 +64,6 @@ class App extends React.Component {
                 return <MovieCard 
                           movie={movie} 
                           key={`movies-${index}`} 
-                          dispatch={this.props.dispatch} 
                           isFavourite = {this.isMovieFavourite(movie)}
                        />
               })

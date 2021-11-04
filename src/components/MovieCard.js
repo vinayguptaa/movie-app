@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {addFavourite, removeFavourite} from '../actions';
 
 class MovieCard extends React.Component {
@@ -37,16 +38,8 @@ class MovieCard extends React.Component {
   }
 }
 
-// class MovieCardWrapper extends React.Component {
-//     render() {
-//       return (
-//         <StoreContext.Consumer>
-//           {
-//             (store) => <MovieCard dispatch={store.dispatch} ></MovieCard>
-//           }
-//         </StoreContext.Consumer>
-//       )
-//     }
-//   }
+function mapStateToProps(state) {
+    return {}
+}
 
-export default MovieCard;
+export default connect(mapStateToProps)(MovieCard);;
