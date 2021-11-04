@@ -1,4 +1,5 @@
-import React, { createContext } from 'react';
+import React from 'react';
+import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
@@ -40,53 +41,53 @@ const logger= ({dispatch, getState}) => (next) => (action) => {
 const store = createStore(rootReducer, applyMiddleware(logger, thunk));
 console.log('creating store: ', store);
 
-export const StoreContext = createContext();
-console.log('StoreContext: ' ,StoreContext);
+// export const StoreContext = createContext();
+// console.log('StoreContext: ' ,StoreContext);
 
-class Provider extends React.Component {
-  render() {
-    const {store} = this.props;
-    return  <StoreContext.Provider value={store}> {this.props.children} </StoreContext.Provider>
-  }
-}
+// class Provider extends React.Component {
+//   render() {
+//     const {store} = this.props;
+//     return  <StoreContext.Provider value={store}> {this.props.children} </StoreContext.Provider>
+//   }
+// }
 
-//example call --->> const ConnectedAppComponent = connect(callback)(App);
-export function connect(callback) {
-  return function(Component) {
-    class ConnectedComponent extends React.Component{
-      constructor(props) {
-        super(props);
-        //this returns unsubscribe function which we should call when component is destroyed to avoid data leaks !
-        //like we do while attaching event handlers and detatch when when element destroys
-        this.unsubscribe = this.props.store.subscribe(()=> this.forceUpdate());
-      }
+// //example call --->> const ConnectedAppComponent = connect(callback)(App);
+// export function connect(callback) {
+//   return function(Component) {
+//     class ConnectedComponent extends React.Component{
+//       constructor(props) {
+//         super(props);
+//         //this returns unsubscribe function which we should call when component is destroyed to avoid data leaks !
+//         //like we do while attaching event handlers and detatch when when element destroys
+//         this.unsubscribe = this.props.store.subscribe(()=> this.forceUpdate());
+//       }
 
-      componentWillUnmount() {
-        this.unsubscribe();
-      }
+//       componentWillUnmount() {
+//         this.unsubscribe();
+//       }
 
-      render() {
-        const {store} = this.props;
-        const state = store.getState();
-        const dataToBePassedAsProps = callback(state);
-        // here using spread operator means exact same as passing props like let's say request was like {movies: state.movies}
-        //then it will do like movies = {state.movies}
-        return <Component {...dataToBePassedAsProps} dispatch={store.dispatch} />
-      }
-    }
+//       render() {
+//         const {store} = this.props;
+//         const state = store.getState();
+//         const dataToBePassedAsProps = callback(state);
+//         // here using spread operator means exact same as passing props like let's say request was like {movies: state.movies}
+//         //then it will do like movies = {state.movies}
+//         return <Component {...dataToBePassedAsProps} dispatch={store.dispatch} />
+//       }
+//     }
 
-    //creating a wrapper as we want to use subsribe above which will require store access
-    class ConnectedComponentWrapper extends React.Component {
-      render() {
-        return <StoreContext.Consumer>
-          {(store)  => <ConnectedComponent store={store} />}
-        </StoreContext.Consumer>
-      }
-    }
+//     //creating a wrapper as we want to use subsribe above which will require store access
+//     class ConnectedComponentWrapper extends React.Component {
+//       render() {
+//         return <StoreContext.Consumer>
+//           {(store)  => <ConnectedComponent store={store} />}
+//         </StoreContext.Consumer>
+//       }
+//     }
 
-    return ConnectedComponentWrapper;
-  }
-}
+//     return ConnectedComponentWrapper;
+//   }
+// }
 
 
 // console.log('state: ', store.getState());

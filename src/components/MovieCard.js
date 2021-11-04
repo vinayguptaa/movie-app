@@ -1,6 +1,5 @@
 import React from 'react';
 import {addFavourite, removeFavourite} from '../actions';
-import { StoreContext } from '..';
 
 class MovieCard extends React.Component {
     handleFavouriteClick = () => {
