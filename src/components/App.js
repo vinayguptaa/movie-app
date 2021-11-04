@@ -3,26 +3,20 @@ import {data} from '../data';
 import { addMovies, setShowFavourites, hideSearchResult } from '../actions';
 import Navbar from './Navbar';
 import MovieCard from './MovieCard';
-import { StoreContext } from '../index';
+import { connect } from '../index';
 
 class App extends React.Component {
 
   componentDidMount() {
     //normally -> 1.make api call 2.dispatch action
-    const {store}= this.props;
 
-    store.subscribe(()=> {
-      console.log('UPDATED');
-      this.forceUpdate();
-    });
+    this.props.dispatch(addMovies(data));
 
-    store.dispatch(addMovies(data));
-
-    console.log('STATE: ', store.getState());
+    // console.log('STATE: ', store.getState());
   }
 
   isMovieFavourite = (movie) => {
-    const {movies} = this.props.store.getState();
+    const {movies} = this.props;
 
     let index = movies.favourites.indexOf(movie);
     if(index !== -1) {
@@ -34,22 +28,22 @@ class App extends React.Component {
   }
 
   onChangeTab = (val) => {
-    this.props.store.dispatch(setShowFavourites(val));
+    this.props.dispatch(setShowFavourites(val));
   }
 
   //doing in myself to hide search on escape
   handleHideSearchResult = (e) => {
     if(e.key === 'Escape') {
       console.log(e.key);
-      this.props.store.dispatch(hideSearchResult());
+      this.props.dispatch(hideSearchResult());
     }
     // console.log(e.key);
   }
  
   render() {
-    console.log('RENDER', this.props.store.getState());// {movies: {}, search: {}}
+    // console.log('RENDER', this.props.store.getState());//  state -->> {movies: {}, search: {}}
 
-    const {movies} = this.props.store.getState();
+    const {movies} = this.props;
     const {list, favourites, showFavourites} = movies;
 
     const displayMovies = showFavourites ? favourites : list;
@@ -70,7 +64,7 @@ class App extends React.Component {
                 return <MovieCard 
                           movie={movie} 
                           key={`movies-${index}`} 
-                          dispatch={this.props.store.dispatch} 
+                          dispatch={this.props.dispatch} 
                           isFavourite = {this.isMovieFavourite(movie)}
                        />
               })
@@ -82,16 +76,26 @@ class App extends React.Component {
   }
 }
 
-class AppWrapper extends React.Component {
-  render () {
-    return (
-      <StoreContext.Consumer>
-        {
-          (store) => <App store={store} ></App>
-        }
-      </StoreContext.Consumer>
-    )
+// class AppWrapper extends React.Component {
+//   render () {
+//     return (
+//       <StoreContext.Consumer>
+//         {
+//           (store) => <App store={store} ></App>
+//         }
+//       </StoreContext.Consumer>
+//     )
+//   }
+// }
+
+//react community uses such name : mapStateToProps
+function mapStateToProps(state) {
+  return {
+    movies: state.movies,
+    search: state.search
   }
 }
 
-export default AppWrapper;
+const ConnectedAppComponent = connect(mapStateToProps)(App);
+
+export default ConnectedAppComponent;

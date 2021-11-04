@@ -50,6 +50,45 @@ class Provider extends React.Component {
   }
 }
 
+//example call --->> const ConnectedAppComponent = connect(callback)(App);
+export function connect(callback) {
+  return function(Component) {
+    class ConnectedComponent extends React.Component{
+      constructor(props) {
+        super(props);
+        //this returns unsubscribe function which we should call when component is destroyed to avoid data leaks !
+        //like we do while attaching event handlers and detatch when when element destroys
+        this.unsubscribe = this.props.store.subscribe(()=> this.forceUpdate());
+      }
+
+      componentWillUnmount() {
+        this.unsubscribe();
+      }
+
+      render() {
+        const {store} = this.props;
+        const state = store.getState();
+        const dataToBePassedAsProps = callback(state);
+        // here using spread operator means exact same as passing props like let's say request was like {movies: state.movies}
+        //then it will do like movies = {state.movies}
+        return <Component {...dataToBePassedAsProps} dispatch={store.dispatch} />
+      }
+    }
+
+    //creating a wrapper as we want to use subsribe above which will require store access
+    class ConnectedComponentWrapper extends React.Component {
+      render() {
+        return <StoreContext.Consumer>
+          {(store)  => <ConnectedComponent store={store} />}
+        </StoreContext.Consumer>
+      }
+    }
+
+    return ConnectedComponentWrapper;
+  }
+}
+
+
 // console.log('state: ', store.getState());
 
 // store.dispatch({

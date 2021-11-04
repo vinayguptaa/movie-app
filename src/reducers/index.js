@@ -113,3 +113,15 @@ export default combineReducers({
   movies,
   search,
 });
+
+// {
+//   movies: { 
+//     list:[],
+//     favourites:[],
+//     showFavourites 
+//   }, 
+//   search: {
+//     result:{},
+//     showSearchResults 
+//   }
+// }
