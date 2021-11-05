@@ -26,7 +26,7 @@ class Navbar extends React.Component {
   };
 
   render() {
-    const { showSearchResults, results: movie } = this.props.search;
+    const { showSearchResults, results: movies } = this.props.search;
     return (
       <div className="nav">
         <div className="search-container">
@@ -37,15 +37,20 @@ class Navbar extends React.Component {
 
           {showSearchResults && (
             <div className="search-results">
-              <div className="search-result">
-                <img src={movie.Poster} alt="search-pic" />
-                <div className="movie-info">
-                  <span>{movie.Title}</span>
-                  <button onClick={() => this.handleAddToMovies(movie)}>
-                    Add to Movies
-                  </button>
-                </div>
-              </div>
+              {
+                movies.map((movie, index) => {
+                  return (
+                  <div className="search-result" key={`movies-${index}`} >
+                    <img src={movie.Poster} alt="search-pic" />
+                    <div className="movie-info">
+                      <span>{movie.Title}</span>
+                      <button onClick={() => this.handleAddToMovies(movie)}>
+                        Add to Movies
+                      </button>
+                    </div>
+                  </div> )
+                })
+              }
             </div>
           )}
         </div>

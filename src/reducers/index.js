@@ -63,7 +63,7 @@ export function movies(state = initialMoviesState, action) {
 }
 
 const initialSearchState = {
-  result: {},
+  results: [],
   showSearchResults: false,
 };
 
@@ -72,18 +72,18 @@ export function search(state = initialSearchState, action) {
     case ADD_SEARCH_RESULT:
       return {
         ...state,
-        results: action.movie,
+        results: action.movies,
         showSearchResults: true,
       };
     case ADD_MOVIE_TO_LIST:
       return {
         ...state,
-        showSearchResults: false,
+        // showSearchResults: false,
       };
     case HIDE_SEARCH_RESULT:
         return {
             ...state,
-            results : {},
+            results : [],
             showSearchResults: false
         }
     default:

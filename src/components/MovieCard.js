@@ -38,6 +38,7 @@ class MovieCard extends React.Component {
   }
 }
 
+//just want dispatch ! (Comes by default)
 function mapStateToProps(state) {
     return {}
 }
