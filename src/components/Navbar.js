@@ -39,6 +39,7 @@ class Navbar extends React.Component {
 
           {showSearchResults && (
             <div className="search-results">
+              <div style={styles.escDiv}>Press <span style={styles.escDivSpan}>esc</span> to exit</div>
               {
                 movies.map((movie, index) => {
                   return (
@@ -58,6 +59,22 @@ class Navbar extends React.Component {
         </div>
       </div>
     );
+  }
+}
+
+const styles = {
+  escDiv : {
+    width : 'auto',
+    backgroundColor: 'gray',
+    padding: 10,
+    textAlign : 'center',
+    color: 'white'
+  },
+  escDivSpan :{
+    padding: '3px 4px',
+    border: '1px solid',
+    borderRadius: '4px',
+    margin : '0 2px'
   }
 }
 
