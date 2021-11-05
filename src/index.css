@@ -35,7 +35,7 @@ body {
   position: relative;
 }
 
-.nav:hover + .main{
+.nav:hover + .main {
   opacity: 0.2;
 }
 
@@ -49,6 +49,8 @@ body {
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   z-index: 100;
+  height: 600px;
+  overflow: scroll;
 }
 .search-result .movie-info {
   display: flex;
