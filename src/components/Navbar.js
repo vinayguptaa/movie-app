@@ -16,7 +16,9 @@ class Navbar extends React.Component {
   handleSearchClick = () => {
     const { searchText } = this.state;
     //we could do the api call here but we should try to seperate our UI and data fetch so do it with actions
-    this.props.dispatch(handleMovieSearch(searchText));
+    if(searchText !== '') {
+      this.props.dispatch(handleMovieSearch(searchText));
+    }
   };
 
   handleSearchChange = (e) => {

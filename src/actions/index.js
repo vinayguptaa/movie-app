@@ -56,8 +56,10 @@ export function handleMovieSearch(searchText) {
         .then((movies) => {
             console.log('movies', movies.Search);
             // dispatch action to save search results in store
-            dispatch(addMovieSearchResult(movies.Search));
-        });
+            if(movies.Search !== undefined) {
+                dispatch(addMovieSearchResult(movies.Search));
+            }
+        })
     };
 }
 
